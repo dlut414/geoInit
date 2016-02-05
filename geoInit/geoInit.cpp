@@ -10,7 +10,7 @@
 #include "./common/typedef/Vec3.h"
 using namespace std;
 
-const static double dp = 0.01;
+const static double dp = 1./160.;
 const static double tl = 1.;
 const static double th = 1.;
 const static int bd = 3;
@@ -92,16 +92,44 @@ int _tmain(int argc, _TCHAR* argv[])
 	//		}
 	//	}
 	//}
-	/*passive scalar*/
-	for (int k = 0; k <= z; k++) {
-		for (int i = 0; i <= z; i++) {
-			vec r = vec(i*dp-0.5, 0., k*dp-0.5);
+	/*thermal cavity flow*/
+	for (int k = -bd; k <= z + bd; k++) {
+		for (int i = -bd; i <= z + bd; i++) {
+			vec r = vec(i*dp, 0., k*dp);
 			vec v = vec(0., 0., 0.);
-			t.push_back(0);
-			p.push_back(r);
-			u.push_back(v);
+			//if ((i <= 0 && k <= 0) || (i >= z && k >= z) || (i <= 0 && k >= z) || (i >= z && k <= 0)) continue;
+			//if ((i >= z && k >= z)) continue;
+			if (i < 0 || i > z || k < 0 || k > z) {
+				if (k >= z) v = vec(0., 0., 0.);
+				bd2++;
+				t.push_back(2);
+				p.push_back(r);
+				u.push_back(v);
+			}
+			else if (i == 0 || i == z || k == 0 || k == z) {
+				if (k == z) v = vec(0., 0., 0.);
+				bd1++;
+				t.push_back(1);
+				p.push_back(r);
+				u.push_back(v);
+			}
+			else {
+				t.push_back(0);
+				p.push_back(r);
+				u.push_back(v);
+			}
 		}
 	}
+	/*passive scalar*/
+	//for (int k = 0; k <= z; k++) {
+	//	for (int i = 0; i <= z; i++) {
+	//		vec r = vec(i*dp-0.5, 0., k*dp-0.5);
+	//		vec v = vec(0., 0., 0.);
+	//		t.push_back(0);
+	//		p.push_back(r);
+	//		u.push_back(v);
+	//	}
+	//}
 	/*collision*/
 	/*
 	for (int k = 0; k < z; k++) {
@@ -155,7 +183,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	file << dp << endl;
 	file << p.size() << " " << bd1 << " " << bd2 << endl;
 	for (unsigned i = 0; i < p.size(); i++) {
-		file << t[i] << " " << p[i].x << " " << p[i].y << " " << p[i].z << " " << u[i].x << " " << u[i].y << " " << u[i].z << endl;
+		file << t[i] << " " << p[i].x << " " << p[i].z << " " << u[i].x << " " << u[i].z << endl;
 	}
 	cout << " p num: " << p.size() << endl;
 
