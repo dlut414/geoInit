@@ -10,7 +10,7 @@
 #include "./common/typedef/Vec3.h"
 using namespace std;
 
-const static double dp = 1./160.;
+const static double dp = 1./180.;
 const static double tl = 1.;
 const static double th = 1.;
 const static int bd = 3;
