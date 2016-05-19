@@ -23,22 +23,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	vector<vec> p;
 	vector<vec> u;
 	vector<int> t;
-	int x = int(BW / DP);
-	int z = int(BH / DP);
+	int iW = int(BW / DP);
+	int iH = int(BH / DP);
 	/*dambreak flow*/
 	/*
-	for (int k = -BD; k <= z+BD; k++) {
-		for (int i = -BD; i <= x+BD; i++) {
+	for (int k = -BD; k <= iH+BD; k++) {
+		for (int i = -BD; i <= iW+BD; i++) {
 			vec r = vec(i*DP, 0., k*DP);
 			vec v = vec(0., 0., 0.);
-			//if (r.z >= 0.5) continue;
-			if (i < 0 || i > x || k < 0 || k > z) {
+			//if (r.iH >= 0.5) continue;
+			if (i < 0 || i > iW || k < 0 || k > iH) {
 				bd2++;
 				t.push_back(2);
 				p.push_back(r);
 				u.push_back(v);
 			}
-			else if (i == 0 || i == x || k == 0 || k == z) {
+			else if (i == 0 || i == iW || k == 0 || k == iH) {
 				bd1++;
 				t.push_back(1);
 				p.push_back(r);
@@ -54,8 +54,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	*/
 	/*grad test*/
 	/*
-	for (int k = 0; k < z; k++) {
-		for (int i = 0; i < z-k; i++) {
+	for (int k = 0; k < iH; k++) {
+		for (int i = 0; i < iH-k; i++) {
 			vec r = vec(i*DP, 0., k*DP);
 			vec v = vec(double(i)+double(k), 0., 0.);
 			t.push_back(0);
@@ -65,21 +65,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	*/
 	/*cavity flow*/
-	//for (int k = -BD; k <= z+BD; k++) {
-	//	for (int i = -BD; i <= z+BD; i++) {
+	//for (int k = -BD; k <= iH+BD; k++) {
+	//	for (int i = -BD; i <= iH+BD; i++) {
 	//		vec r = vec(i*DP, 0., k*DP);
 	//		vec v = vec(0., 0., 0.);
-	//		//if ((i <= 0 && k <= 0) || (i >= z && k >= z) || (i <= 0 && k >= z) || (i >= z && k <= 0)) continue;
-	//		//if ((i >= z && k >= z)) continue;
-	//		if (i < 0 || i > z || k < 0 || k > z) {
-	//			if (k >= z) v = vec(1., 0., 0.);
+	//		//if ((i <= 0 && k <= 0) || (i >= iH && k >= iH) || (i <= 0 && k >= iH) || (i >= iH && k <= 0)) continue;
+	//		//if ((i >= iH && k >= iH)) continue;
+	//		if (i < 0 || i > iH || k < 0 || k > iH) {
+	//			if (k >= iH) v = vec(1., 0., 0.);
 	//			bd2++;
 	//			t.push_back(2);
 	//			p.push_back(r);
 	//			u.push_back(v);
 	//		}
-	//		else if (i == 0 || i == z || k == 0 || k == z) {
-	//			if (k == z) v = vec(1., 0., 0.);
+	//		else if (i == 0 || i == iH || k == 0 || k == iH) {
+	//			if (k == iH) v = vec(1., 0., 0.);
 	//			bd1++;
 	//			t.push_back(1);
 	//			p.push_back(r);
@@ -93,21 +93,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	}
 	//}
 	/*thermal cavity flow*/
-	for (int k = -BD; k <= z + BD; k++) {
-		for (int i = -BD; i <= z + BD; i++) {
+	for (int k = -BD; k <= iH + BD; k++) {
+		for (int i = -BD; i <= iW + BD; i++) {
 			vec r = vec(i*DP, 0., k*DP);
 			vec v = vec(0., 0., 0.);
-			//if ((i <= 0 && k <= 0) || (i >= z && k >= z) || (i <= 0 && k >= z) || (i >= z && k <= 0)) continue;
-			//if ((i >= z && k >= z)) continue;
-			if (i < 0 || i > z || k < 0 || k > z) {
-				if (k >= z) v = vec(0., 0., 0.);
+			//if ((i <= 0 && k <= 0) || (i >= iH && k >= iH) || (i <= 0 && k >= iH) || (i >= iH && k <= 0)) continue;
+			//if ((i >= iH && k >= iH)) continue;
+			if (i < 0 || i > iW || k < 0 || k > iH) {
+				if (k >= iH) v = vec(0., 0., 0.);
 				bd2++;
 				t.push_back(2);
 				p.push_back(r);
 				u.push_back(v);
 			}
-			else if (i == 0 || i == z || k == 0 || k == z) {
-				if (k == z) v = vec(0., 0., 0.);
+			else if (i == 0 || i == iW || k == 0 || k == iH) {
+				if (k == iH) v = vec(0., 0., 0.);
 				bd1++;
 				t.push_back(1);
 				p.push_back(r);
@@ -121,8 +121,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 	/*passive scalar*/
-	//for (int k = 0; k <= z; k++) {
-	//	for (int i = 0; i <= z; i++) {
+	//for (int k = 0; k <= iH; k++) {
+	//	for (int i = 0; i <= iH; i++) {
 	//		vec r = vec(i*DP-0.5, 0., k*DP-0.5);
 	//		vec v = vec(0., 0., 0.);
 	//		t.push_back(0);
@@ -132,17 +132,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	//}
 	/*collision*/
 	/*
-	for (int k = 0; k < z; k++) {
-		for (int i = 0; i < z; i++) {
+	for (int k = 0; k < iH; k++) {
+		for (int i = 0; i < iH; i++) {
 			vec r = vec(i*DP, 0., k*DP);
 			vec v = vec(0., 0., 0.);
-			if (i < BD || i >= z - BD || k < BD || k >= z - BD) {
+			if (i < BD || i >= iH - BD || k < BD || k >= iH - BD) {
 				bd2++;
 				t.push_back(2);
 				p.push_back(r);
 				u.push_back(v);
 			}
-			else if (i == BD || i == z - BD - 1 || k == BD || k == z - BD - 1) {
+			else if (i == BD || i == iH - BD - 1 || k == BD || k == iH - BD - 1) {
 				bd1++;
 				t.push_back(1);
 				p.push_back(r);
@@ -157,8 +157,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	*/
 	/*boundary value problem*/
 	/*
-	for (int k = 0; k < z; k++) {
-		for (int i = 0; i < x; i++) {
+	for (int k = 0; k < iH; k++) {
+		for (int i = 0; i < iW; i++) {
 			vec r = vec(i*DP, 0., k*DP);
 			vec v = vec(0., 0., 0.);
 			if (0&&i < BD) {
