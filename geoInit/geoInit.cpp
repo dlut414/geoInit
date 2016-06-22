@@ -10,9 +10,9 @@
 #include "./common/typedef/Vec3.h"
 using namespace std;
 
-const static double DP = 1.0/120.0;
-const static double BW = 1.0;
-const static double BH = 8.0;
+const static double DP = 1.0/20.0;
+const static double BW = 10.0;
+const static double BH = 5.0;
 const static int BD = 0;
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -93,33 +93,33 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	}
 	//}
 	/*thermal cavity flow*/
-	for (int k = -BD; k <= iH + BD; k++) {
-		for (int i = -BD; i <= iW + BD; i++) {
-			vec r = vec(i*DP, 0., k*DP);
-			vec v = vec(0., 0., 0.);
-			//if ((i <= 0 && k <= 0) || (i >= iH && k >= iH) || (i <= 0 && k >= iH) || (i >= iH && k <= 0)) continue;
-			//if ((i >= iH && k >= iH)) continue;
-			if (i < 0 || i > iW || k < 0 || k > iH) {
-				if (k >= iH) v = vec(0., 0., 0.);
-				bd2++;
-				t.push_back(2);
-				p.push_back(r);
-				u.push_back(v);
-			}
-			else if (i == 0 || i == iW || k == 0 || k == iH) {
-				if (k == iH) v = vec(0., 0., 0.);
-				bd1++;
-				t.push_back(1);
-				p.push_back(r);
-				u.push_back(v);
-			}
-			else {
-				t.push_back(0);
-				p.push_back(r);
-				u.push_back(v);
-			}
-		}
-	}
+	//for (int k = -BD; k <= iH + BD; k++) {
+	//	for (int i = -BD; i <= iW + BD; i++) {
+	//		vec r = vec(i*DP, 0., k*DP);
+	//		vec v = vec(0., 0., 0.);
+	//		//if ((i <= 0 && k <= 0) || (i >= iH && k >= iH) || (i <= 0 && k >= iH) || (i >= iH && k <= 0)) continue;
+	//		//if ((i >= iH && k >= iH)) continue;
+	//		if (i < 0 || i > iW || k < 0 || k > iH) {
+	//			if (k >= iH) v = vec(0., 0., 0.);
+	//			bd2++;
+	//			t.push_back(2);
+	//			p.push_back(r);
+	//			u.push_back(v);
+	//		}
+	//		else if (i == 0 || i == iW || k == 0 || k == iH) {
+	//			if (k == iH) v = vec(0., 0., 0.);
+	//			bd1++;
+	//			t.push_back(1);
+	//			p.push_back(r);
+	//			u.push_back(v);
+	//		}
+	//		else {
+	//			t.push_back(0);
+	//			p.push_back(r);
+	//			u.push_back(v);
+	//		}
+	//	}
+	//}
 	/*passive scalar*/
 	//for (int k = 0; k <= iH; k++) {
 	//	for (int i = 0; i <= iH; i++) {
@@ -177,6 +177,63 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 	*/
+	/*SPHERIC benchmark test6*/
+	/*
+	int cylinderLeft = int(1.0 / DP);
+	int cylinderRight = int(2.0 / DP);
+	int cylinderBottom = int(2.0 / DP);
+	int cylinderTop = int(3.0 / DP);
+	for (int k = -BD; k <= iH + BD; k++) {
+		for (int i = -BD; i <= iW + BD; i++) {
+			vec r = vec(i*DP, 0., k*DP);
+			vec v = vec(0., 0., 0.);
+			if (i == 0 || i == iW || k == 0 || k == iH) {
+				bd1++;
+				t.push_back(1);
+				p.push_back(r);
+				u.push_back(v);
+			}
+			else if ((i == cylinderLeft || i == cylinderRight) && (k >= cylinderBottom && k <= cylinderTop)) {
+				bd1++;
+				t.push_back(1);
+				p.push_back(r);
+				u.push_back(v);
+			}
+			else if ((k == cylinderBottom || k == cylinderTop) && (i >= cylinderLeft && i <= cylinderRight)) {
+				bd1++;
+				t.push_back(1);
+				p.push_back(r);
+				u.push_back(v);
+			}
+			else if (i > cylinderLeft && i < cylinderRight && k > cylinderBottom && k < cylinderTop) {
+				continue;
+			}
+			else {
+				t.push_back(0);
+				p.push_back(r);
+				u.push_back(v);
+			}
+		}
+	}
+	*/
+	/*Blasius boundary layer*/
+	for (int k = -BD; k <= iH + BD; k++) {
+		for (int i = -BD; i <= iW + BD; i++) {
+			vec r = vec(i*DP, 0., k*DP);
+			vec v = vec(0., 0., 0.);
+			if (k == 0 || k == iH) {
+				bd1++;
+				t.push_back(1);
+				p.push_back(r);
+				u.push_back(v);
+			}
+			else {
+				t.push_back(0);
+				p.push_back(r);
+				u.push_back(v);
+			}
+		}
+	}
 
 	ofstream file("Geo.in");
 	file << "0." << endl;
