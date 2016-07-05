@@ -10,9 +10,9 @@
 #include "./common/typedef/Vec3.h"
 using namespace std;
 
-const static double DP = 1.0/20.0;
-const static double BW = 10.0;
-const static double BH = 5.0;
+const static double DP = 1.0/100.0;
+const static double BW = 1.0;
+const static double BH = 1.0;
 const static int BD = 0;
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -217,6 +217,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	*/
 	/*Blasius boundary layer*/
+	/*
 	for (int k = -BD; k <= iH + BD; k++) {
 		for (int i = -BD; i <= iW + BD; i++) {
 			vec r = vec(i*DP, 0., k*DP);
@@ -232,6 +233,17 @@ int _tmain(int argc, _TCHAR* argv[])
 				p.push_back(r);
 				u.push_back(v);
 			}
+		}
+	}
+	*/
+	/*Taylor-Green vortex*/
+	for (int k = -BD; k <= iH + BD; k++) {
+		for (int i = -BD; i <= iW + BD; i++) {
+			vec r = vec(i*DP, 0., k*DP);
+			vec v = vec(0., 0., 0.);
+			t.push_back(0);
+			p.push_back(r);
+			u.push_back(v);
 		}
 	}
 
